@@ -91,11 +91,16 @@ namespace Week04
             int counter = 0;
             foreach (Flat f in Flats)
             {
+                if (f.Elevator== true)
+                {
+                    values[counter, 4] = "Van";
+                }
+                else { values[counter, 4] = "Nincs"; }
+
                 values[counter, 0] = f.Code;
                 values[counter, 1] = f.Vendor;
                 values[counter, 2] = f.Side;
                 values[counter, 3] = f.District;
-                values[counter, 4] = f.Elevator;
                 values[counter, 5] = f.NumberOfRooms;
                 values[counter, 6] = f.FloorArea;
                 values[counter, 7] = f.Price;
