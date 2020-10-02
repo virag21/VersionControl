@@ -83,7 +83,7 @@ namespace Week04
 
             for (int i = 0; i < headers.Length; i++)
             {
-                xlSheet.Cells[i + 1, i + 1] = headers[i];
+                xlSheet.Cells[1, i + 1] = headers[i];
 
             }
 
@@ -109,8 +109,9 @@ namespace Week04
 
             xlSheet.get_Range(
             GetCell(2, 9),
-            GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = "=";
+            GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = "=" + GetCell(2,8).ToString()+"*"+GetCell(2,7).ToString();
 
+            
 
 
         }
@@ -141,6 +142,19 @@ namespace Week04
             headerRange.RowHeight = 40;
             headerRange.Interior.Color = Color.LightBlue;
             headerRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            Excel.Range fullRange = xlSheet.get_Range(GetCell(1, 1), GetCell(xlSheet.UsedRange.Rows.Count, xlSheet.UsedRange.Columns.Count));
+            fullRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+            Excel.Range firstColumn = xlSheet.get_Range(GetCell(2, 1), GetCell(xlSheet.UsedRange.Rows.Count-1,1));
+            firstColumn.Font.Bold = true;
+            firstColumn.Interior.Color = Color.LightYellow;
+            Excel.Range lastColumn = xlSheet.get_Range(GetCell(2, 9), GetCell(xlSheet.UsedRange.Rows.Count-1, 9));
+            lastColumn.Interior.Color = Color.LightGreen;
+            lastColumn.NumberFormat = "#,##0.00";
+
+
+
+
         }
     }
 }
