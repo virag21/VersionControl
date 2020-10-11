@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +24,6 @@ namespace Week05
             Ticks = context.Ticks.ToList();
             dataGridView1.DataSource = Ticks;
             CreatePortfolio();
-        }
-
-        private void CreatePortfolio()
-        {
-            Portfolio.Add(new PortfolioItem() { Index = "OTP", Volume = 10 });
-            Portfolio.Add(new PortfolioItem() { Index = "ZWACK", Volume = 10 });
-            Portfolio.Add(new PortfolioItem() { Index = "ELMU", Volume = 10 });
-
-            dataGridView2.DataSource = Portfolio;
-
             List<decimal> Nyereségek = new List<decimal>();
             int intervalum = 30;
             DateTime kezdőDátum = (from x in Ticks select x.TradingDay).Min();
@@ -51,6 +42,15 @@ namespace Week05
                                       select x)
                                         .ToList();
             MessageBox.Show(nyereségekRendezve[nyereségekRendezve.Count() / 5].ToString());
+        }
+
+        private void CreatePortfolio()
+        {
+            Portfolio.Add(new PortfolioItem() { Index = "OTP", Volume = 10 });
+            Portfolio.Add(new PortfolioItem() { Index = "ZWACK", Volume = 10 });
+            Portfolio.Add(new PortfolioItem() { Index = "ELMU", Volume = 10 });
+
+            dataGridView2.DataSource = Portfolio;
 
         }
 
@@ -71,7 +71,21 @@ namespace Week05
 
         private void button1_Click(object sender, EventArgs e)
         {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Comma Seperated Values (*.csv)|*.csv";
+            sfd.DefaultExt = "csv";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.FileName, false, Encoding.UTF8))
+                foreach (var item in Ticks)
+                    {
+                        sw.Write(item.TradingDay);
+                        sw.Write(";");
+                        sw.Write(item.Price);
+                        sw.WriteLine();
+                    }
 
+            }
         }
     }
 }
