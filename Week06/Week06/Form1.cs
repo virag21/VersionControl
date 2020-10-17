@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 using Week06.Entities;
 using Week06.MnbServiceReference;
@@ -15,9 +16,11 @@ namespace Week06
 {
     public partial class Form1 : Form
     {
-        BindingList<RateDate> Rates = new BindingList<RateDate>();
+        BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
         public Form1()
         {
+            InitializeComponent();
             RefreshData();
 
         }
@@ -25,11 +28,11 @@ namespace Week06
         private void RefreshData()
         {
             Rates.Clear();
-            InitializeComponent();
             GetRates();
             XML();
             dataGridView1.DataSource = Rates;
             Chart();
+            comboBox1.DataSource = Currencies;
         }
 
         private void Chart()
@@ -52,7 +55,7 @@ namespace Week06
         }
 
 
-        public static void GetRates()
+        public void GetRates()
         {
             var mnbService = new MNBArfolyamServiceSoapClient();
 
@@ -66,14 +69,16 @@ namespace Week06
             var response = mnbService.GetExchangeRates(request);
 
             var result = response.GetExchangeRatesResult;
+
+
         }
 
-        private static void XML()
+        private void XML()
         {
             var xml = new XmlDocument();
             xml.LoadXml(result);
 
-            
+
             foreach (XmlElement element in xml.DocumentElement)
             {
                 var rate = new RateData();
@@ -93,6 +98,7 @@ namespace Week06
                     rate.Value = value / unit;
             }
         }
+
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
