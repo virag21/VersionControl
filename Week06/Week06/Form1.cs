@@ -18,14 +18,39 @@ namespace Week06
         BindingList<RateDate> Rates = new BindingList<RateDate>();
         public Form1()
         {
+            RefreshData();
+
+        }
+
+        private void RefreshData()
+        {
+            Rates.Clear();
             InitializeComponent();
             GetRates();
             XML();
             dataGridView1.DataSource = Rates;
-
+            Chart();
         }
 
-        
+        private void Chart()
+        {
+            chartRateData.DataSource = Rates;
+
+            var series = chartRateData.Series[0];
+            series.ChartType = SeriesChartType.Line;
+            series.XValueMember = "Date";
+            series.YValueMembers = "Value";
+            series.BorderWidth = 2;
+
+            var legend = chartRateData.Legends[0];
+            legend.Enabled = false;
+
+            var chartArea = chartRateData.ChartAreas[0];
+            chartArea.AxisX.MajorGrid.Enabled = false;
+            chartArea.AxisY.MajorGrid.Enabled = false;
+            chartArea.AxisY.IsStartedFromZero = false;
+        }
+
 
         public static void GetRates()
         {
@@ -67,6 +92,21 @@ namespace Week06
                 if (unit != 0)
                     rate.Value = value / unit;
             }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshData();
         }
     }
 }
