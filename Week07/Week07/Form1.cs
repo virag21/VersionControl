@@ -18,12 +18,14 @@ namespace Week07
         List<Person> Population = new List<Person>();
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
+        List<int> females = new List<int>();
+        List<int> males = new List<int>();
         Random rng = new Random(1234);
 
         public Form1()
         {
             InitializeComponent();
-            Population = GetPopulation(textBox1.Text);
+            Population = GetPopulation(@"C:\Users\Virág\Downloads\nép.csv" );
             BirthProbabilities = GetBirthProbabilities(@"C:\Users\Virág\Downloads\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"C:\Users\Virág\Downloads\halál.csv");
 
@@ -32,7 +34,10 @@ namespace Week07
 
         private void Simulation()
         {
-            for (int year = 2005; year <= 2024; year++)
+            richTextBox1.Clear();
+            females.Clear();
+            males.Clear();
+            for (int year = 2005; year <= numericUpDown1.Value; year++)
             {
                 // Végigmegyünk az összes személyen
                 for (int i = 0; i < Population.Count; i++)
@@ -40,14 +45,31 @@ namespace Week07
                     SimStep(year, Population[i]);
                 }
 
+
                 int nbrOfMales = (from x in Population
                                   where x.Gender == Gender.Male && x.IsAlive
                                   select x).Count();
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
+                females.Add( nbrOfFemales);
+                males.Add(nbrOfMales);
+
                 Console.WriteLine(
                     string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+
+
+            }
+            DisplayResults();
+        }
+
+        private void DisplayResults()
+        {
+            for (int year = 2005; year <= numericUpDown1.Value; year++)
+            {
+                int i = 0;
+                    richTextBox1.Text = "Szimulációs év: " + year + "\n" + "\t" + "Lányok:" + females[i]+ "\n" + "\t" + "Fiúk:" + males[i];
+                i++;
             }
         }
 
@@ -152,6 +174,7 @@ namespace Week07
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Population = GetPopulation(textBox1.Text);
             Simulation();
         }
 
