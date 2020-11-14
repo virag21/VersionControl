@@ -9,9 +9,9 @@ namespace Week08_GXMRLU.Entities
 {
     class BallFactory:IToyFactory
     {
-        public Toy CreateNew()
+        public Abstractions.Toy CreateNew()
         {
-            return new Ball();
+            return new Toy();
         }
     }
 }

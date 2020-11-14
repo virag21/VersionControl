@@ -8,7 +8,7 @@ using Week08_GXMRLU.Abstractions;
 
 namespace Week08_GXMRLU.Entities
 {
-    class Car : Toy
+    class Car : Abstractions.Toy
     {
         protected override void DrawImage(Graphics g)
         {
