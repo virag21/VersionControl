@@ -31,7 +31,7 @@ namespace Week08_GXMRLU
         public Form1()
         {
             InitializeComponent();
-            Factory = new IToyFactory();
+            Factory = new CarFactory();
 
         }
         private void createTimer_Tick(object sender, EventArgs e)
@@ -67,7 +67,10 @@ namespace Week08_GXMRLU
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Factory = new BallFactory();
+            Factory = new BallFactory
+            {
+                BallColor = button3.BackColor
+            };
 
         }
 
@@ -79,6 +82,49 @@ namespace Week08_GXMRLU
             _nextToy.Top = lblNext.Top + lblNext.Height + 20;
             _nextToy.Left = lblNext.Left;
             Controls.Add(_nextToy);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var colorPicker = new ColorDialog();
+
+            colorPicker.Color = button.BackColor;
+            if (colorPicker.ShowDialog() != DialogResult.OK)
+                return;
+            button.BackColor = colorPicker.Color;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var colorPicker = new ColorDialog();
+
+            colorPicker.Color = button.BackColor;
+            if (colorPicker.ShowDialog() != DialogResult.OK)
+                return;
+            button.BackColor = colorPicker.Color;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var colorPicker = new ColorDialog();
+
+            colorPicker.Color = button.BackColor;
+            if (colorPicker.ShowDialog() != DialogResult.OK)
+                return;
+            button.BackColor = colorPicker.Color;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Factory = new PresentFactory
+            {
+                BoxColor = button5.BackColor,
+                RibbonColor = button6.BackColor
+
+            };
         }
     }
 }

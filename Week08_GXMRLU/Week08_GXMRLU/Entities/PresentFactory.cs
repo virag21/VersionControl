@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,11 +8,16 @@ using Week08_GXMRLU.Abstractions;
 
 namespace Week08_GXMRLU.Entities
 {
-    class CarFactory : IToyFactory
+    class PresentFactory : IToyFactory
     {
+        public Color BoxColor { get; set; }
+        public Color RibbonColor { get; set; }
+
+
         public Toy CreateNew()
         {
-            return new Car();
+            return new Present(BoxColor, RibbonColor);
         }
     }
+    
 }
