@@ -31,7 +31,7 @@ namespace Week08_GXMRLU
         public Form1()
         {
             InitializeComponent();
-            Factory = new CarFactory();
+            //Factory = new IToyFactory();
 
         }
         private void createTimer_Tick(object sender, EventArgs e)
