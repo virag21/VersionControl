@@ -40,11 +40,6 @@ namespace Week10
             gc.Start();
 
 
-            var playerList = from p in gc.GetCurrentPlayers()
-                             orderby p.GetFitness() descending
-                             select p;
-            var topPerformers = playerList.Take(populationSize / 2).ToList();
-
         }
         private void Gc_GameOver(object sender)
         {
@@ -53,12 +48,20 @@ namespace Week10
                 "{0}. generáció",
                 generation);
 
+
+            var playerList = from p in gc.GetCurrentPlayers()
+                             orderby p.GetFitness() descending
+                             select p;
+            var topPerformers = playerList.Take(populationSize / 2).ToList();
+
+
             var winners = from p in topPerformers
-                          where p.IsWinner
+                          where !p.IsWinner
                           select p;
             if (winners.Count() > 0)
             {
                 winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                button1.Visible = true;
                 gc.GameOver -= Gc_GameOver;
                 return;
             }
@@ -80,5 +83,16 @@ namespace Week10
             }
             gc.Start();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
+        }
+
+
     }
 }
